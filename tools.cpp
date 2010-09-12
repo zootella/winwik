@@ -8,8 +8,8 @@
 #include "class.h"
 #include "program.h"
 
-// GLOBAL VARIABLES
-extern handletop Handle; // GLOBAL HANDLE STRUCTURE
+// Global objects
+extern handletop Handle;
 
 void List()
 {
@@ -83,89 +83,4 @@ bool FileMoveSimple(read source, read destination, bool folder, bool copy)
 
 	// REPORT SUCCESS
 	return(true);
-}
-
-void Slice()
-{
-	// takes nothing
-	// slices a tree of folders into an array of discs
-	// returns nothing
-
-	// ASK THE USER WHAT FOLDER TO SLICE INTO DISCS
-	string folder;
-	folder = FileBrowse("Choose the folder to slice into discs.");
-	if (isblank(folder)) return;
-	folder = on(folder, "\\", Reverse, Different);
-
-	// CONFIRM THE DONE FOLDER DOES NOT ALREADY EXIST
-	if (FileLook(clip(folder, 0, length(folder) - 1) + "(done)\\") != -2) { MessageBox(Handle.window, "Done folder already exists.", PROGRAM_NAME, MB_OK); return; }
-
-	//call the recursive function
-	int number, size;
-	number = 1;
-	size = 0;
-	SliceFolder(folder, folder, &number, &size);
-
-	// REPORT THAT THE TASK IS DONE
-	MessageBox(Handle.window, "File tree sliced.", PROGRAM_NAME, MB_OK);
-}
-
-void SliceFolder(read base, read folder, int *number, int *size)
-{
-	// takes the folder being sliced, that folder or one found within it, and access to the current disc number and disc size
-	// slices folders and files
-	// returns nothing
-
-	// LOOK IN THE FOLDER AND LOOP TO GET THE PATH OF EACH FOLDER AND FILE THERE
-	HANDLE find;
-	find = NULL;
-	string from, disc, to;
-	int s;
-	while (FileList(folder, "*.*", &find, &from)) {
-
-		// FROM IS A FOLDER
-		if (trails(from, "\\")) {
-
-			// MOVE INTO THE FOLDER WITH THIS FUNCTION
-			SliceFolder(base, from, number, size);
-
-		// FROM IS A FILE
-		} else {
-
-			// GET THE FILE SIZE
-			s = FileLook(from);
-			if (s < 0) MessageBox(Handle.window, "Unable to size '" + from + "'", PROGRAM_NAME, MB_OK);
-
-			// BIGGER THAN A DISC
-			if (s > DISCSIZE) {
-
-				// COMPOSE DISC FOLDER
-				disc = "(oversize)";
-
-			} else {
-
-				// TOO BIG FOR THIS DISC, PLACE IN THE NEXT ONE
-				if (*size + s > DISCSIZE) {
-
-					(*number)++;
-					*size = s;
-
-				// SMALL ENOUGH FOR THIS DISC
-				} else {
-
-					*size += s;
-				}
-
-				// COMPOSE DISC FOLDER
-				disc = numerals(*number);
-				while (length(disc) < 3) disc = "0" + disc;
-			}
-
-			// COMPOSE DESTINATION PATH
-			to = clip(base, 0, length(base) - 1) + "(done)\\" + disc + "\\" + clip(from, length(base), -1);
-
-			// MOVE THE FILE, REPORTING ANY ERROR
-			if (!FileMoveSimple(from, to, 1, 0)) MessageBox(Handle.window, "Unable to move '" + from + "' to '" + to + "'", PROGRAM_NAME, MB_OK);
-		}
-	}
 }

@@ -1,5 +1,5 @@
 
-// Include
+// Include headers
 #include <windows.h>
 #include <windef.h>
 #include <atlstr.h>
@@ -38,7 +38,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	// Create the main window
 	Handle.window = CreateWindow(
 		name,                                   // System or registered window class name or class
-		PROGRAM_TITLE,                          // Text to show in the title bar, or null for no text
+		PROGRAM_NAME,                           // Text to show in the title bar, or null for no text
 		WS_OVERLAPPEDWINDOW,                    // Window style
 		CW_USEDEFAULT, CW_USEDEFAULT, 300, 100, // Window position and size
 		NULL,                                   // Handle to parent window
@@ -60,43 +60,26 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	return (int)message.wParam;
 }
 
-void DialogUpdate()
-{
-	// call to update the dialog box and process messages to paint it
+// Process a message from the system
+LRESULT CALLBACK WindowProcedure(HWND window, UINT message, WPARAM wparam, LPARAM lparam) {
 
-	// FORCE THE DIALOG BOX TO REDRAW RIGHT NOW
-	RedrawWindow(Handle.dialog, NULL, NULL, RDW_UPDATENOW);
+	// The message is a command
+	switch (message) {
+	case WM_COMMAND:
 
-	// CALL PEEK MESSAGE TO LET THE WINDOW REDRAW, DOING THIS CAUSES USER.EXE IN WINDOWS 95/98/ME TO CRASH
-	LPMSG message;
-	message = NULL;
-	while (PeekMessage(message, NULL, 0, 0, PM_REMOVE)) {
+		switch (LOWORD(wparam)) {
 
-		TranslateMessage(message);
-		DispatchMessage(message);
-	}
-}
-
-LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
-{
-	switch (uiMessage) {
-
-		case WM_COMMAND:
-
-			switch (LOWORD(wParam)) {
-
-				// THE USER CLICKED ON A MENU ITEM
-				case IDM_TEST: Test(); return(0);
-			}
-
-			break;
-
-		// CLOSE THE APPLICATION
-		case WM_DESTROY:
-
-			PostQuitMessage(0);
-			return(0);
+			// The user clicked on a menu item
+			case IDM_TEST: Test(); return 0;
 		}
 
-	return DefWindowProc(hWnd, uiMessage, wParam, lParam);
+	// Close the program
+	break;
+	case WM_DESTROY:
+
+		PostQuitMessage(0);
+		return 0;
+	}
+
+	return DefWindowProc(window, message, wparam, lparam);
 }

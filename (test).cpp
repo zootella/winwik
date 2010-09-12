@@ -1,5 +1,5 @@
 
-// INCLUDE STATEMENTS
+// Include headers
 #include <windows.h>
 #include <windef.h>
 #include <atlstr.h>
@@ -8,10 +8,9 @@
 #include "class.h"
 #include "program.h"
 
-// GLOBAL VARIABLES
-extern handletop Handle; // GLOBAL HANDLE STRUCTURE
+// Global objects
+extern handletop Handle;
 
-void Test()
-{
+void Test() {
 
 }

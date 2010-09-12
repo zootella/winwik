@@ -221,14 +221,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\core paint.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\core registry.cpp"
-				>
-			</File>
-			<File
 				RelativePath="core string.cpp"
 				>
 			</File>
