@@ -1,12 +1,13 @@
 
-// Include headers
+// Include platform
 #include <windows.h>
 #include <windef.h>
 #include <atlstr.h>
-#include <shlobj.h>
-#include "resource.h"
-#include "class.h"
-#include "program.h"
 
-// Global objects
+// Include program
+#include "resource.h"
+#include "program.h"
+#include "function.h"
+
+// Access to global objects
 extern handletop Handle;

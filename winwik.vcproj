@@ -209,19 +209,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\core file.cpp"
+				RelativePath=".\string.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\core memory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="core string.cpp"
+				RelativePath=".\utility.cpp"
 				>
 			</File>
 			<File
 				RelativePath="window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\workbench.cpp"
 				>
 			</File>
 		</Filter>
@@ -230,7 +230,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\class.h"
+				RelativePath=".\function.h"
 				>
 			</File>
 			<File
