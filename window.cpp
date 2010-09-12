@@ -51,6 +51,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	ShowWindow(Handle.window, SW_SHOWNORMAL);
 	UpdateWindow(Handle.window);
 
+	// Join the clipboard viewer chain
+	ClipboardJoin();
+
 	// Enter the message loop
 	MSG message;
 	while (GetMessage(&message, NULL, 0, 0)) {
@@ -58,7 +61,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 		TranslateMessage(&message);
 		DispatchMessage(&message);
 	}
-	return (int)message.wParam;
+
+	// Leave the clipboard viewer chain
+	ClipboardLeave();
+	return message.wParam;
 }
 
 // Process a message from the system
@@ -73,6 +79,24 @@ LRESULT CALLBACK WindowProcedure(HWND window, UINT message, WPARAM wparam, LPARA
 			// The user clicked on a menu item
 			case IDM_TEST: Test(); return 0;
 		}
+
+	// Another window is exiting the clipboard viewer chain
+	break;
+	case WM_CHANGECBCHAIN:
+
+		// Unlink the next program or pass the message along
+		if (Handle.viewer == (HWND)wparam) Handle.viewer = (HWND)lparam;
+		else if (Handle.viewer) SendMessage(Handle.viewer, message, wparam, lparam);
+		return 0;
+
+	// The clipboard contents have changed
+	break;
+	case WM_DRAWCLIPBOARD:
+
+		// Send the messate to the next window in the clipboard viewer chain, then process it here
+		if (Handle.viewer) SendMessage(Handle.viewer, message, wparam, lparam);
+		ClipboardChanged();
+		return 0;
 
 	// Close the program
 	break;

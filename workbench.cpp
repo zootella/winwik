@@ -11,3 +11,19 @@
 
 // Access to global objects
 extern handletop Handle;
+
+
+
+
+void ClipboardChanged() {
+
+
+	string s;
+	if (ClipboardPaste(&s))
+		FileSave("C:\\Documents\\clipboard.txt", s);
+
+
+
+}
+
+

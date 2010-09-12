@@ -15,4 +15,8 @@ extern handletop Handle;
 // Run a snippet of test code
 void Test() {
 
+
+
+	FileSave("C:\\Documents\\test\\file.txt", "hello inside the file");
 }
+

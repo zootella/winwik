@@ -28,9 +28,16 @@ string off(read r, read t, direction d = Forward, matching m = Different); // Ha
 string trim(read r, read t1 = "", read t2 = "", read t3 = ""); // Has defaults
 
 // Utility
-void Report(read r);
+void error(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = ""); // Has defaults
+void log(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = ""); // Has defaults
+void report(read r);
+bool FileSave(read path, read r);
+void ClipboardJoin();
+void ClipboardLeave();
+bool ClipboardPaste(string *s);
 
 // Workbench
+void ClipboardChanged();
 
 // Test
 void Test();

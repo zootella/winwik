@@ -1,6 +1,6 @@
 
 // Build settings
-#define PROGRAM_TEST false
+#define PROGRAM_TEST true
 #define PROGRAM_NAME "Winwik"
 
 // Constants
@@ -22,4 +22,5 @@ struct handletop {
 
 	HINSTANCE instance; // Running instance
 	HWND window; // Main window
+	HWND viewer; // Handle to the window of the next program in the clipboard viewer chain
 };
