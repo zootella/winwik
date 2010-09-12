@@ -28,7 +28,7 @@ void List()
 
 	// COPY THE TEXT LIST TO THE CLIPBOARD AND REPORT THAT THE TASK IS DONE
 	ClipboardCopy(list);
-	MessageBox(Handle.window, "List copied.", PROGRAMNAME, MB_OK);
+	MessageBox(Handle.window, "List copied.", PROGRAM_NAME, MB_OK);
 }
 
 void ListFolder(read folder, string *list)
@@ -98,7 +98,7 @@ void Slice()
 	folder = on(folder, "\\", Reverse, Different);
 
 	// CONFIRM THE DONE FOLDER DOES NOT ALREADY EXIST
-	if (FileLook(clip(folder, 0, length(folder) - 1) + "(done)\\") != -2) { MessageBox(Handle.window, "Done folder already exists.", PROGRAMNAME, MB_OK); return; }
+	if (FileLook(clip(folder, 0, length(folder) - 1) + "(done)\\") != -2) { MessageBox(Handle.window, "Done folder already exists.", PROGRAM_NAME, MB_OK); return; }
 
 	//call the recursive function
 	int number, size;
@@ -107,7 +107,7 @@ void Slice()
 	SliceFolder(folder, folder, &number, &size);
 
 	// REPORT THAT THE TASK IS DONE
-	MessageBox(Handle.window, "File tree sliced.", PROGRAMNAME, MB_OK);
+	MessageBox(Handle.window, "File tree sliced.", PROGRAM_NAME, MB_OK);
 }
 
 void SliceFolder(read base, read folder, int *number, int *size)
@@ -134,7 +134,7 @@ void SliceFolder(read base, read folder, int *number, int *size)
 
 			// GET THE FILE SIZE
 			s = FileLook(from);
-			if (s < 0) MessageBox(Handle.window, "Unable to size '" + from + "'", PROGRAMNAME, MB_OK);
+			if (s < 0) MessageBox(Handle.window, "Unable to size '" + from + "'", PROGRAM_NAME, MB_OK);
 
 			// BIGGER THAN A DISC
 			if (s > DISCSIZE) {
@@ -165,7 +165,7 @@ void SliceFolder(read base, read folder, int *number, int *size)
 			to = clip(base, 0, length(base) - 1) + "(done)\\" + disc + "\\" + clip(from, length(base), -1);
 
 			// MOVE THE FILE, REPORTING ANY ERROR
-			if (!FileMoveSimple(from, to, 1, 0)) MessageBox(Handle.window, "Unable to move '" + from + "' to '" + to + "'", PROGRAMNAME, MB_OK);
+			if (!FileMoveSimple(from, to, 1, 0)) MessageBox(Handle.window, "Unable to move '" + from + "' to '" + to + "'", PROGRAM_NAME, MB_OK);
 		}
 	}
 }

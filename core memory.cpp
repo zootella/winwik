@@ -66,7 +66,7 @@ void Report(read r)
 	// returns nothing
 
 	// IF THE PROGRAM IS COMPILED TO REPORT ERRORS DISPLAY THE TEXT IN A MESSAGE BOX
-	if (PROGRAMTEST) MessageBox(Handle.window, r, "Test", MB_OK);
+	if (PROGRAM_TEST) MessageBox(Handle.window, r, "Test", MB_OK);
 }
 
 bool CriticalBox(read r)

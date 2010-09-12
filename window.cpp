@@ -14,67 +14,50 @@ handletop Handle;
 // Start the program
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int show) {
 
-	MSG msg;
-	WNDCLASSEX wndclass;
+	// Save the given instance handle
+	Handle.instance = instance;
 
-	// SAVE HANDLES
-	Handle.instance = instance;    // SAVE THE INSTANCE IN A GLOBAL VARIABLE
+	// Register the class for the main window
+	string name = make(PROGRAM_NAME, "ClassName"); // Compose a unique window class name
+	WNDCLASSEX info;
+	ZeroMemory(&info, sizeof(info));
+	info.cbSize        = sizeof(info);
+	info.style         = 0;
+	info.lpfnWndProc   = WindowProcedure;
+	info.cbClsExtra    = 0;
+	info.cbWndExtra    = 0;
+	info.hInstance     = Handle.instance;
+	info.hIcon         = (HICON)LoadImage(Handle.instance, "APPICON", IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
+	info.hIconSm       = (HICON)LoadImage(Handle.instance, "APPICON", IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	info.hCursor       = LoadCursor(NULL, IDC_ARROW);
+	info.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
+	info.lpszMenuName  = "MAINMENU";
+	info.lpszClassName = name;
+	RegisterClassEx(&info);
 
-	// REGISTER THE CLASS FOR THE MAIN WINDOW
-	wndclass.cbSize        = sizeof(wndclass);
-	wndclass.style         = 0;
-	wndclass.lpfnWndProc   = MainWinProc;
-	wndclass.cbClsExtra    = 0;
-	wndclass.cbWndExtra    = 0;
-	wndclass.hInstance     = Handle.instance;
-	wndclass.hIcon         = (HICON)LoadImage(Handle.instance, "APPICON", IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
-	wndclass.hIconSm       = (HICON)LoadImage(Handle.instance, "APPICON", IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszMenuName  = "MAINMENU";
-	wndclass.lpszClassName = PROGRAMNAME;
-	RegisterClassEx(&wndclass);
-
-	// CREATE THE MAIN WINDOW
+	// Create the main window
 	Handle.window = CreateWindow(
-		PROGRAMNAME,
-		PROGRAMTITLE,
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		300,
-		100,
-		NULL,
-		NULL,
-		Handle.instance,
-		(LPVOID)NULL);
+		name,                                   // System or registered window class name or class
+		PROGRAM_TITLE,                          // Text to show in the title bar, or null for no text
+		WS_OVERLAPPEDWINDOW,                    // Window style
+		CW_USEDEFAULT, CW_USEDEFAULT, 300, 100, // Window position and size
+		NULL,                                   // Handle to parent window
+		NULL,                                   // Menu handle or child window identification number
+		Handle.instance,                        // Program instance handle
+		NULL);                                  // No parameter
 
-	// ADD THE TEST BUTTON
-	if (PROGRAMTEST) AppendMenu(GetMenu(Handle.window), MF_STRING, IDM_TEST, "Test");
-
-	// MAKE BRUSHES AND FONT
-	Handle.blue        = BrushColor(RGB(  0, 102, 204));
-	Handle.lightblue   = BrushColor(RGB( 51, 153, 255));
-	Handle.yellow      = BrushColor(RGB(255, 204,   0));
-	Handle.lightyellow = BrushColor(RGB(255, 255, 102));
-	Handle.green       = BrushColor(RGB(102, 204,  51));
-	Handle.lightgreen  = BrushColor(RGB(153, 255, 102));
-	Handle.red         = BrushColor(RGB(255, 102,  51));
-	Handle.lightred    = BrushColor(RGB(255, 153, 102));
-	Handle.arial = CreateFont("Arial", 90);
-
-	// SHOW THE MAIN WINDOW AND PAINT IT NOW
+	// Show the main window and paint it now
 	ShowWindow(Handle.window, SW_SHOWNORMAL);
 	UpdateWindow(Handle.window);
 
-	// ENTER THE MESSAGE LOOP
-	while (GetMessage(&msg, NULL, 0, 0)) {
+	// Enter the message loop
+	MSG message;
+	while (GetMessage(&message, NULL, 0, 0)) {
 
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		TranslateMessage(&message);
+		DispatchMessage(&message);
 	}
-
-	return(msg.wParam);
+	return (int)message.wParam;
 }
 
 void DialogUpdate()
@@ -94,7 +77,7 @@ void DialogUpdate()
 	}
 }
 
-LRESULT CALLBACK MainWinProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
 	switch (uiMessage) {
 

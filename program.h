@@ -1,8 +1,8 @@
 
 // PROGRAM COMPILE SETTINGS
-#define PROGRAMTEST false
-#define PROGRAMNAME "Winwik"
-#define PROGRAMTITLE "Winwik"
+#define PROGRAM_TEST false
+#define PROGRAM_NAME "Winwik"
+#define PROGRAM_TITLE "Winwik"
 
 // PROGRAM CONSTANTS
 #define SAFETY     8                // MAKES EACH LOCAL BUFFER 8 BYTES LONGER AND MAKES THEM EASY TO FIND
@@ -65,16 +65,12 @@ struct handletop {
 	// WINDOWS
 	HWND window; // Handle.window MAIN WINDOW
 	HWND dialog; // Handle.dialog AN OPENED DIALOG BOX
-
-	// BRUSHES AND FONTS
-	brushitem blue, lightblue, yellow, lightyellow, green, lightgreen, red, lightred;
-	HFONT arial;
 };
 
 // FUNCTIONS IN WINDOW.CPP
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow);
 void DialogUpdate();
-LRESULT CALLBACK MainWinProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam);
 
 // FUNCTIONS IN CORE FILE.CPP
 string FileMove(read path, read folder, read name, read ext, int action, int force, int attributes);
