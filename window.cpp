@@ -10,15 +10,11 @@
 
 // GLOBAL VARIABLES
 handletop Handle; // GLOBAL HANDLE STRUCTURE
-statetop  State;  // STATE VARIABLES
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
 	MSG msg;
 	WNDCLASSEX wndclass;
-
-	// NULL DATA LISTS
-	State.rename.r = NULL;
 
 	// SAVE HANDLES
 	Handle.instance = hInstance;    // SAVE THE INSTANCE IN A GLOBAL VARIABLE

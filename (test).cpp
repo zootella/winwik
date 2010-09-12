@@ -10,7 +10,6 @@
 
 // GLOBAL VARIABLES
 extern handletop Handle; // GLOBAL HANDLE STRUCTURE
-extern statetop  State;  // STATE VARIABLES
 
 void Test()
 {

@@ -10,7 +10,6 @@
 
 // GLOBAL VARIABLES
 extern handletop Handle; // GLOBAL HANDLE STRUCTURE
-extern statetop  State;  // STATE VARIABLES
 
 string FileMove(read path, read folder, read name, read ext, int action, int force, int attributes)
 {

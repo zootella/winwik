@@ -72,55 +72,6 @@ struct handletop {
 	HFONT arial;
 };
 
-// STATE BACKUP
-enum backupstage {BackupStageStart, BackupStageRunning, BackupStageDone, BackupStageDoneWithErrors};
-struct statebackuptop {
-
-	// STATUS
-	backupstage stage;        // State.backup.stage        STAGE OF THE BACKUP OPERATION
-	string      errors;       // State.backup.errors       TEXT LIST OF ERRORS
-	int         folder;       // State.backup.folder       NUMBER OF FOLDERS DONE
-	int         foldererror;  // State.backup.foldererror  NUMBER OF FOLDER ERRORS
-	int         file;         // State.backup.file         NUMBER OF FILES DONE
-	int         fileerror;    // State.backup.fileerror    NUMBER OF FILE ERRORS
-	int         compare;      // State.backup.compare      NUMBER OF FILE COMPARES DONE
-	int         compareerror; // State.backup.compareerror NUMBER OF FILE COMPARE ERRORS
-	bool        ignore;       // State.backup.ignore       TRUE IF MARKED FOLDERS SHOULD BE IGNORED
-};
-
-// STATE RENAME
-struct staterenametop {
-
-	// OPTIONS
-	string      folder;     // State.rename.folder     FOLDER TO RENAME
-	string      done;       // State.rename.done       DESTINATION FOLDER
-	bool        onlyimages; // State.rename.onlyimages ONLY IMAGES OPTION
-	int         duplicate;  // State.rename.duplicate  DUPLICATE OPTION
-	bool        each;       // State.rename.each       EACH SUBFOLDER OPTION
-
-	// DATA
-	DWORD       id; // State.rename.id NEXT FILE ID NUMBER
-	renameitem *r;  // State.rename.r  THE MOST RECENTLY ADDED ITEM IN THE LIST
-
-	// STATUS
-	int    prepared;  // State.rename.prepared  NUMBER OF FILES MOVED INTO DAY FOLDERS
-	int    skipped;   // State.rename.skipped   NUMBER OF FILES SKIPPED
-	int    renamed;   // State.rename.renamed   NUMBER OF FILES MOVED AND RENAMED
-	int    separated; // State.rename.separated NUMBER OF FILES SEPARATED OUT BECAUSE OF IDENTICLE DATA AND NAME
-	string errors;    // State.rename.errors    TEXT LIST OF ERRORS
-};
-
-// STATE
-struct statetop {
-
-	// SUBSTRUCTURES
-	struct statebackuptop backup;
-	struct staterenametop rename;
-
-	// GALLERY LIST
-	class galleryitem *g;
-};
-
 // FUNCTIONS IN WINDOW.CPP
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow);
 void DialogUpdate();
@@ -206,67 +157,6 @@ void PaintText(deviceitem *device, read r, sizeitem size, bool horizontal, bool 
 sizeitem SizeText(deviceitem *device, read r);
 void PaintFill(deviceitem *device, sizeitem size, HBRUSH brush);
 
-// FUNCTIONS IN BACKUP.CPP
-void Backup();
-BOOL CALLBACK DialogBackup(HWND dialog, UINT message, WPARAM wParam, LPARAM lParam);
-void BackupPaint(deviceitem *device);
-void BackupInitialize();
-void BackupEdit(WORD button);
-void BackupStart();
-void BackupCommands(read r);
-void BackupCopy(read source, read destination, read folder);
-void BackupCompare(read source, read destination, read folder);
-void BackupDelete(read folder);
-void BackupDisplayTask(read display);
-void BackupDisplayStatus();
-void BackupDisplayError(read display);
-
-// FUNCTIONS IN RENAME.CPP
-void Rename();
-BOOL CALLBACK DialogRename(HWND dialog, UINT message, WPARAM wParam, LPARAM lParam);
-void RenameInitialize();
-void RenameStart();
-void RenameFolder();
-void RenameDisplayTask(read display);
-void RenameDisplayStatus();
-void RenameDisplayError(read display);
-
-// FUNCTIONS IN RENAME PROCESS.CPP
-void RenameList(read folder);
-void RenamePrepare(read path);
-void RenameDuplicateNameAndData();
-void RenameDuplicateData();
-void RenameNumber();
-void RenameGroup();
-void RenameMove();
-
-// FUNCTIONS IN RENAME UTILITY.CPP
-void ComposeName(read path, string *name, string *ext);
-string ComposePathPrepare(renameitem *r);
-string ComposePathDestination(renameitem *r);
-void RenameInsert(renameitem *r);
-int RenameSort(renameitem *i, renameitem *r, int level);
-renameitem *RenameFirst(int level);
-renameitem *RenameNext(renameitem *r, int level);
-renameitem *RenameGroupNext(renameitem *r);
-bool RenameSameData(renameitem *r1, renameitem *r2);
-int RenameFileLook(read path, FILETIME *time);
-string TextStrip(read r);
-string TextTime(DWORD time);
-
-// FUNCTIONS IN GALLERY.CPP
-void Gallery();
-BOOL CALLBACK DialogGallery(HWND dialog, UINT message, WPARAM wParam, LPARAM lParam);
-void GalleryStart(read file, read name, bool each);
-void GalleryFolder(read file, read name, read done);
-void GalleryAdd(read name, read ext, read group);
-string GalleryFileRead(read path);
-bool GalleryFileWrite(read path, read r);
-void GalleryGenerate(read save, read plate, read title, read folder);
-string GalleryPrevious(int page, int total);
-string GalleryNext(int page, int total);
-string GalleryContents(int onpage, int pages, int size);
-
 // FUNCTIONS IN TOOLS.CPP
 void List();
 void ListFolder(read folder, string *list);
@@ -275,20 +165,6 @@ void Slice();
 void SliceFolder(read base, read folder, int *number, int *size);
 void Zero();
 void ZeroAdd(read path);
-
-// Functions in update.cpp
-void BackupUpdate(read source, read destination, bool compare);
-void UpdateClear(read source, read destination);
-void UpdateFill(read source, read destination, bool compare);
-bool UpdateList(read path, HANDLE *h, WIN32_FIND_DATA *info);
-bool UpdateSame(read path, WIN32_FIND_DATA *info);
-bool UpdateIsFolder(read path);
-bool UpdateIsFile(read path);
-void UpdateDeleteFolder(read path);
-void UpdateCopyFolder(read source, read destination, bool compare);
-void UpdateDeleteFile(read path);
-void UpdateMakeFolder(read path);
-void UpdateCopyFile(read source, read destination, bool compare);
 
 // functions in (test).cpp
 void Test();

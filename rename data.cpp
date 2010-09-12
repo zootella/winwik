@@ -9,4 +9,3 @@
 // GLOBAL VARIABLES
 extern sing      blank;  // SHARED BLANK
 extern handletop Handle; // GLOBAL HANDLE STRUCTURE
-extern statetop  State;  // STATE VARIABLES

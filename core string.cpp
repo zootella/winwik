@@ -10,7 +10,6 @@
 
 // GLOBAL VARIABLES
 extern handletop Handle; // GLOBAL HANDLE STRUCTURE
-extern statetop  State;  // STATE VARIABLES
 
 string make(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9)
 {
