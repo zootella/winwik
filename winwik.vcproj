@@ -209,10 +209,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\core clipboard.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\core file.cpp"
 				>
 			</File>
@@ -222,14 +218,6 @@
 			</File>
 			<File
 				RelativePath="core string.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\core text.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tools.cpp"
 				>
 			</File>
 			<File

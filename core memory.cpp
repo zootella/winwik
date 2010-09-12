@@ -29,36 +29,6 @@ bool CloseHandleSafely(HANDLE h)
 	return(true);
 }
 
-bool KillTimerSafely(HWND window, int timer)
-{
-	// takes a window handle and a timer identifier number of a timer in that window
-	// kills it
-	// returns true if successful, false otherwise
-
-	// KILL THE TIMER
-	int result;
-	result = KillTimer(window, timer);
-	if (!result) { Report("killtimersafely: error killtimer"); return(false); } // ERROR
-
-	// RETURN SUCCESS
-	return(true);
-}
-
-bool Message(read title, read message, UINT type)
-{
-	// takes text and options for a message box
-	// displays the message box
-	// returns true or false for ok cancel and yes no
-
-	// SHOW THE MESSAGE BOX WITH THE MOUSE AWAY
-	int choice;
-	choice = MessageBox(Handle.window, message, title, type);
-
-	// SORT AND RETURN THE CHOICE
-	if (choice == IDOK || choice == IDYES) return(true);
-	else return(false);
-}
-
 void Report(read r)
 {
 	// takes text
@@ -67,21 +37,4 @@ void Report(read r)
 
 	// IF THE PROGRAM IS COMPILED TO REPORT ERRORS DISPLAY THE TEXT IN A MESSAGE BOX
 	if (PROGRAM_TEST) MessageBox(Handle.window, r, "Test", MB_OK);
-}
-
-bool CriticalBox(read r)
-{
-	// takes text
-	// displays a message box to tell the user that a necessary system call had an error
-	// exits the program or returns true to try again
-
-	// DISPLAY THE TEXT IN A MESSAGE BOX AND LET THE USER CHOOSE TO RETRY OR EXIT THE PROGRAM
-	int choice;
-	choice = MessageBox(Handle.window, r, "Error", MB_RETRYCANCEL | MB_ICONSTOP);
-
-	// HALT AND EXIT THE RUNNING INSTANCE RIGHT HERE
-	if (choice == IDCANCEL) ExitProcess(0);
-
-	// RETURN TRUE TO LOOP AND TRY AGAIN
-	return(true);
 }
