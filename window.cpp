@@ -1,5 +1,5 @@
 
-// INCLUDE STATEMENTS
+// Include
 #include <windows.h>
 #include <windef.h>
 #include <atlstr.h>
@@ -8,17 +8,17 @@
 #include "class.h"
 #include "program.h"
 
-// GLOBAL VARIABLES
-handletop Handle; // GLOBAL HANDLE STRUCTURE
+// Global objects
+handletop Handle;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
-{
+// Start the program
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int show) {
+
 	MSG msg;
 	WNDCLASSEX wndclass;
 
 	// SAVE HANDLES
-	Handle.instance = hInstance;    // SAVE THE INSTANCE IN A GLOBAL VARIABLE
-	Handle.heap = GetProcessHeap(); // SAVE THE HANDLE TO THE PROCESS HEAP IN A GLOBAL VARIABLE
+	Handle.instance = instance;    // SAVE THE INSTANCE IN A GLOBAL VARIABLE
 
 	// REGISTER THE CLASS FOR THE MAIN WINDOW
 	wndclass.cbSize        = sizeof(wndclass);

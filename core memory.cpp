@@ -85,37 +85,3 @@ bool CriticalBox(read r)
 	// RETURN TRUE TO LOOP AND TRY AGAIN
 	return(true);
 }
-
-LPVOID MemoryAllocate(int size)
-{
-	// takes a heap and a number of bytes to allocate
-	// allocates the memory, not leaving this function until any errors have been corrected
-	// returns a pointer to the memory
-
-	// ALLOCATE THE MEMORY
-	LPVOID memory;
-	do {
-
-		memory = HeapAlloc(Handle.heap, HEAP_ZERO_MEMORY, size);
-		if (memory) break; // MEMORY ALLOCATED
-
-	} while (CriticalBox("The system is low on memory. Close any unneeded programs to free some memory, and click Retry.\n\nIf this message has appeared repeatedly, click Cancel to close the program."));
-
-	// RETURN THE POINTER TO THE ALLOCATED MEMORY BLOCK
-	return(memory);
-}
-
-void MemoryFree(LPVOID memory)
-{
-	// takes a heap and a pointer to memory to free
-	// frees the memory
-	// returns nothing
-
-	// CHECK IF THE MEMORY POINTER HAS ALREADY BEEN SET TO NULL
-	if (!memory) return;
-
-	// FREE THE MEMORY
-	int result;
-	result = HeapFree(Handle.heap, 0, memory);
-	if (!result) { Report("memoryfree: error heapfree"); return; } // ERROR
-}

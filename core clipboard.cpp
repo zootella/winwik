@@ -18,12 +18,10 @@ void ClipboardCopy(read r)
 	// returns nothing
 
 	// MAKE A MEMORY BLOCK LARGE ENOUGH TO HOLD THE TEXT AND ITS TERMINATOR AND GET A HANDLE TO IT
-	HANDLE memoryhandle;
-	memoryhandle = GlobalAlloc(GHND, length(r) + 1);
+	HANDLE memoryhandle = GlobalAlloc(GHND, length(r) + 1);
 
 	// LOCK THE HANDLE
-	LPSTR memorypointer;
-	memorypointer = (LPSTR)GlobalLock(memoryhandle);
+	LPSTR memorypointer = (LPSTR)GlobalLock(memoryhandle);
 
 	// COPY THE BYTES OF THE TEXT INTO THE MEMORY BLOCK, THIS DOES INCLUDE AND DOES COPY THE NULL TERMINATOR AT THE END OF R
 	lstrcpy(memorypointer, r);

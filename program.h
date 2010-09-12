@@ -61,7 +61,6 @@ struct handletop {
 
 	// PROGRAM
 	HINSTANCE instance; // Handle.instance INSTANCE HANDLE
-	HANDLE heap;        // Handle.heap     PROCESS MEMORY HEAP
 
 	// WINDOWS
 	HWND window; // Handle.window MAIN WINDOW
@@ -104,8 +103,6 @@ bool KillTimerSafely(HWND window, int timer);
 bool Message(read title, read message, UINT type);
 void Report(read r);
 bool CriticalBox(read r);
-LPVOID MemoryAllocate(int size);
-void MemoryFree(LPVOID memory);
 
 // FUNCTIONS IN CORE STRING.CPP
 string make(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = "");
@@ -163,8 +160,6 @@ void ListFolder(read folder, string *list);
 bool FileMoveSimple(read source, read destination, bool folder, bool copy);
 void Slice();
 void SliceFolder(read base, read folder, int *number, int *size);
-void Zero();
-void ZeroAdd(read path);
 
 // functions in (test).cpp
 void Test();
