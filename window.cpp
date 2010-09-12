@@ -36,12 +36,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName  = "MAINMENU";
-	wndclass.lpszClassName = "Rocky";
+	wndclass.lpszClassName = PROGRAMNAME;
 	RegisterClassEx(&wndclass);
 
 	// CREATE THE MAIN WINDOW
 	Handle.window = CreateWindow(
-		"Rocky",
+		PROGRAMNAME,
 		PROGRAMTITLE,
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,

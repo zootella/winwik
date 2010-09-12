@@ -38,8 +38,8 @@ BOOL CALLBACK DialogGallery(HWND dialog, UINT message, WPARAM wParam, LPARAM lPa
 
 		// LOAD TEXT FROM THE REGISTRY INTO THE DIALOG BOX
 		string file, name;
-		RegistryReadText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Gallery", "file", &file);
-		RegistryReadText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Gallery", "name", &name);
+		RegistryReadText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Gallery"), "file", &file);
+		RegistryReadText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Gallery"), "name", &name);
 		SetDlgItemText(dialog, IDC_FILE, file);
 		SetDlgItemText(dialog, IDC_NAME, name);
 
@@ -86,8 +86,8 @@ BOOL CALLBACK DialogGallery(HWND dialog, UINT message, WPARAM wParam, LPARAM lPa
 			string file2, name2;
 			file2 = TextDialog(dialog, IDC_FILE);
 			name2 = TextDialog(dialog, IDC_NAME);
-			RegistryWriteText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Gallery", "file", file2);
-			RegistryWriteText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Gallery", "name", name2);
+			RegistryWriteText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Gallery"), "file", file2);
+			RegistryWriteText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Gallery"), "name", name2);
 
 			// IF THE USER CLICKED OK, PERFORM THE GALLERY OPERATION
 			if (LOWORD(wParam) == IDOK) GalleryStart(file2, name2, each);
@@ -110,8 +110,8 @@ void GalleryStart(read file, read name, bool each)
 	// returns nothing
 
 	// CHECK THE PATHS
-	if (FileLook(file) <= 0)  { MessageBox(Handle.window, "Unable to find the template file.",          "Rocky Mountain Tools", MB_OK | MB_ICONEXCLAMATION); return; }
-	if (FileLook(name) != -1) { MessageBox(Handle.window, "Unable to find the folder of named images.", "Rocky Mountain Tools", MB_OK | MB_ICONEXCLAMATION); return; }
+	if (FileLook(file) <= 0)  { MessageBox(Handle.window, "Unable to find the template file.",          PROGRAMNAME, MB_OK | MB_ICONEXCLAMATION); return; }
+	if (FileLook(name) != -1) { MessageBox(Handle.window, "Unable to find the folder of named images.", PROGRAMNAME, MB_OK | MB_ICONEXCLAMATION); return; }
 
 	// GENERATE EACH SUBFOLDER
 	string done;
@@ -123,7 +123,7 @@ void GalleryStart(read file, read name, bool each)
 
 		// COMPOSE THE PATH TO THE SAVE FOLDER
 		done = on(name, "\\", Reverse, Different) + "(done)";
-		if (FileLook(done) != -2 || !FileFolder(done, 0)) { MessageBox(Handle.window, "Done folder may already exist.", "Rocky Mountain Tools", MB_OK | MB_ICONEXCLAMATION); return; }
+		if (FileLook(done) != -2 || !FileFolder(done, 0)) { MessageBox(Handle.window, "Done folder may already exist.", PROGRAMNAME, MB_OK | MB_ICONEXCLAMATION); return; }
 
 		// LOOP TO GENERATE EACH SUBFOLDER
 		while (is(subfolders)) { split(subfolders, "\n", &subfolder, &subfolders);
@@ -137,7 +137,7 @@ void GalleryStart(read file, read name, bool each)
 
 		// COMPOSE THE PATH TO THE DONE FOLDER
 		done = before(off(name, "\\", Reverse, Different), "\\", Reverse, Different) + "\\(done)";
-		if (FileLook(done) != -2 || !FileFolder(done, 0)) { MessageBox(Handle.window, "Done folder may already exist.", "Rocky Mountain Tools", MB_OK | MB_ICONEXCLAMATION); return; }
+		if (FileLook(done) != -2 || !FileFolder(done, 0)) { MessageBox(Handle.window, "Done folder may already exist.", PROGRAMNAME, MB_OK | MB_ICONEXCLAMATION); return; }
 
 		// GENERATE A GALLERY
 		GalleryFolder(file, name, done);

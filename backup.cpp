@@ -38,7 +38,7 @@ BOOL CALLBACK DialogBackup(HWND dialog, UINT message, WPARAM wParam, LPARAM lPar
 
 		// LOAD THE COMMANDS TEXT FROM THE REGISTRY
 		string s1;
-		RegistryReadText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Backup", "commands", &s1);
+		RegistryReadText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Backup"), "commands", &s1);
 		SetDlgItemText(Handle.dialog, IDC_COMMANDS, s1);
 
 		// LET THE SYSTEM PLACE THE FOCUS
@@ -83,7 +83,7 @@ BOOL CALLBACK DialogBackup(HWND dialog, UINT message, WPARAM wParam, LPARAM lPar
 			// SAVE THE COMMANDS TEXT INTO THE REGISTRY
 			string s2;
 			s2 = TextDialog(Handle.dialog, IDC_COMMANDS);
-			RegistryWriteText(HKEY_CURRENT_USER, "Software\\Rocky Mountain Tools\\Backup", "commands", s2);
+			RegistryWriteText(HKEY_CURRENT_USER, make("Software\\", PROGRAMNAME, "\\Backup"), "commands", s2);
 
 			// CLEAR THE DIALOG HANDLE AND RESET ALL THE STATE VARIABLES
 			Handle.dialog = NULL;

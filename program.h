@@ -1,7 +1,8 @@
 
 // PROGRAM COMPILE SETTINGS
 #define PROGRAMTEST false
-#define PROGRAMTITLE "Rocky Mountain Tools 2009 May 4"
+#define PROGRAMNAME "Winwik"
+#define PROGRAMTITLE "Winwik"
 
 // PROGRAM CONSTANTS
 #define SAFETY     8                // MAKES EACH LOCAL BUFFER 8 BYTES LONGER AND MAKES THEM EASY TO FIND

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Rocky.rc
+// Used by winwik.rc
 //
 #define IDC_F1                          1000
 #define IDC_SOURCE1                     1000
