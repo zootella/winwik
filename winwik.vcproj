@@ -209,10 +209,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\backup.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\core clipboard.cpp"
 				>
 			</File>
@@ -241,27 +237,7 @@
 				>
 			</File>
 			<File
-				RelativePath="gallery.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\rename process.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\rename utility.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\rename.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\tools.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\update.cpp"
 				>
 			</File>
 			<File

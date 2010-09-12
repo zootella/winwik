@@ -107,13 +107,7 @@ LRESULT CALLBACK MainWinProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 			switch (LOWORD(wParam)) {
 
 				// THE USER CLICKED ON A MENU ITEM
-				case IDM_BACKUP:  Backup();  return(0);
-				case IDM_RENAME:  Rename();  return(0);
-				case IDM_GALLERY: Gallery(); return(0);
-				case IDM_LIST:    List();    return(0);
-				case IDM_SLICE:   Slice();   return(0);
-				case IDM_ZERO:    Zero();    return(0);
-				case IDM_TEST:    Test();    return(0);
+				case IDM_TEST: Test(); return(0);
 			}
 
 			break;
