@@ -6,7 +6,7 @@
 
 // Include program
 #include "resource.h"
-#include "program.h"
+#include "define.h"
 #include "function.h"
 
 // Create global objects

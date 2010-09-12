@@ -6,7 +6,7 @@
 
 // Include program
 #include "resource.h"
-#include "program.h"
+#include "define.h"
 #include "function.h"
 
 // Access to global objects
@@ -15,18 +15,18 @@ extern handletop Handle;
 // Takes text
 // Copies and catcatenates the text into a string
 // Returns a string
-CString make(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9) {
+string make(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9) {
 
-	CString s1 = r1, s2 = r2, s3 = r3, s4 = r4, s5 = r5, s6 = r6, s7 = r7, s8 = r8, s9 = r9;
+	string s1 = r1, s2 = r2, s3 = r3, s4 = r4, s5 = r5, s6 = r6, s7 = r7, s8 = r8, s9 = r9;
 	return s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9;
 }
 
 // Takes text
 // Uppercases the characters in it
 // Returns a string
-CString upper(read r) {
+string upper(read r) {
 
-	CString s = r;
+	string s = r;
 	s.MakeUpper();
 	return s;
 }
@@ -34,9 +34,9 @@ CString upper(read r) {
 // Takes text
 // Lowercases the characters in it
 // Returns a string
-CString lower(read r) {
+string lower(read r) {
 
-	CString s = r;
+	string s = r;
 	s.MakeLower();
 	return s;
 }
@@ -52,11 +52,11 @@ int number(read r) {
 // Takes a number and width like 3 for 001
 // Writes the minus sign and number into text
 // Returns a string
-CString numerals(int number, int width) {
+string numerals(int number, int width) {
 
 	WCHAR bay[MAX_PATH];
 	_itow_s(number, bay, MAX_PATH, 10); // The 10 is for base ten
-	CString s = bay;
+	string s = bay;
 
 	if (width) {
 		while (length(s) < width)
@@ -172,8 +172,8 @@ int find(read r, read t, direction d, matching m) {
 			// Uppercase them if matching was requested
 			if (m == Matching) {
 
-				rchar = (WCHAR)CharUpper((LPSTR)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
-				tchar = (WCHAR)CharUpper((LPSTR)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
+				rchar = (WCHAR)CharUpper((LPTSTR)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
+				tchar = (WCHAR)CharUpper((LPTSTR)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
 			}
 
 			// Mismatch found, set false and break
@@ -194,10 +194,10 @@ int find(read r, read t, direction d, matching m) {
 // Takes text to parse, opening and closing tags, and matching
 // Gets the text between the tags
 // Returns a string
-CString parse(read r, read t1, read t2, matching m) {
+string parse(read r, read t1, read t2, matching m) {
 
 	// Clip from after the first tag and then before the second or blank if not found
-	CString s = after(r, t1, Forward, m);
+	string s = after(r, t1, Forward, m);
 	if (has(s, t2, m)) s = before(s, t2, Forward, m);
 	else               s = "";
 	return s;
@@ -206,10 +206,10 @@ CString parse(read r, read t1, read t2, matching m) {
 // Takes text and tag, and direction and matching
 // Splits the text before the tag
 // Returns a string, the text from r if not found in either direction
-CString before(read r, read t, direction d, matching m) {
+string before(read r, read t, direction d, matching m) {
 
 	// Use split
-	CString b, a;
+	string b, a;
 	split(r, t, &b, &a, d, m);
 	return b;
 }
@@ -217,10 +217,10 @@ CString before(read r, read t, direction d, matching m) {
 // Takes text and tag, and direction and matching
 // Splits the text after the tag
 // Returns a string, blank if not found in either direction
-CString after(read r, read t, direction d, matching m) {
+string after(read r, read t, direction d, matching m) {
 
 	// Use split
-	CString b, a;
+	string b, a;
 	split(r, t, &b, &a, d, m);
 	return a;
 }
@@ -228,7 +228,7 @@ CString after(read r, read t, direction d, matching m) {
 // Takes text and tag, strings for before and after, and direction and matching
 // Splits the text around the tag, writing text in before and after
 // Returns nothing, puts all text in before and none in after if not found in either direction
-void split(read r, read t, CString *b, CString *a, direction d, matching m) {
+void split(read r, read t, string *b, string *a, direction d, matching m) {
 
 	// Find the tag in the text using the direction and matching passed to this function
 	int i;
@@ -247,7 +247,7 @@ void split(read r, read t, CString *b, CString *a, direction d, matching m) {
 	tlength = length(t);
 
 	// Clip out before and after form a copy of r so that r and *b being the same won't mangle *a
-	CString source = r;
+	string source = r;
 	*b = clip(source, 0, i);
 	*a = clip(source, i + tlength, rlength - tlength - i);
 }
@@ -255,10 +255,10 @@ void split(read r, read t, CString *b, CString *a, direction d, matching m) {
 // Takes text, find and replace tags, and matching
 // Makes a single pass down the text, replacing whole instances of the find text with the replacement text
 // Returns a string
-CString replace(read r, read t1, read t2, matching m) {
+string replace(read r, read t1, read t2, matching m) {
 
 	// If the text or the find text is blank, or if the find text is not found, return the text unchanged
-	CString top, left, bottom;
+	string top, left, bottom;
 	top = r;
 	if (isblank(r) || isblank(t1) || !has(r, t1, m)) return top;
 
@@ -280,10 +280,10 @@ CString replace(read r, read t1, read t2, matching m) {
 // Takes text, a starting index, and a number of characters to copy or -1 for all
 // Clips out that text, not reading outside of r
 // Returns a string
-CString clip(read r, int startindex, int characters) {
+string clip(read r, int startindex, int characters) {
 
 	// Get the length and eliminate special cases
-	CString s;
+	string s;
 	int n = length(r);
 	if (n == 0 || characters == 0) { return s; }            // No characters to clip or none requested
 	if (startindex < 0 || startindex > n - 1) { return s; } // Start index outside of r
@@ -300,9 +300,9 @@ CString clip(read r, int startindex, int characters) {
 // Takes text and tag, and direction and matching
 // Confirms the text starts or ends with the tag, inserting it if necessary
 // Returns a string
-CString on(read r, read t, direction d, matching m) {
+string on(read r, read t, direction d, matching m) {
 
-	CString s = r;
+	string s = r;
 	if (d == Forward) { if (!starts(s, t, m)) s = t + s; } // Confirm the text starts with the tag
 	else              { if (!trails(s, t, m)) s = s + t; } // Confirm the text ends with the tag
 	return s;
@@ -311,9 +311,9 @@ CString on(read r, read t, direction d, matching m) {
 // Takes text and tag, and direction and matching
 // Confirms the text does not start or end with the tag, removing multiple instances of it if necessary
 // Returns a string
-CString off(read r, read t, direction d, matching m) {
+string off(read r, read t, direction d, matching m) {
 
-	CString s = r;
+	string s = r;
 	if (d == Forward) { while(starts(s, t, m)) s = clip(s, length(t), -1); }            // Remove the tag from the start of the string
 	else              { while(trails(s, t, m)) s = clip(s, 0, length(s) - length(t)); } // Remove the tag from the end of the string
 	return s;
@@ -322,10 +322,10 @@ CString off(read r, read t, direction d, matching m) {
 // Takes text and tags
 // Removes the tags from the start and end of the text
 // Returns a string
-CString trim(read r, read t1, read t2, read t3) {
+string trim(read r, read t1, read t2, read t3) {
 
 	// Copy the text into a string
-	CString s = r;
+	string s = r;
 
 	// Remove the tags from the start of the string until gone
 	while (true) {

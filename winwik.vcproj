@@ -230,11 +230,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\function.h"
+				RelativePath=".\define.h"
 				>
 			</File>
 			<File
-				RelativePath="program.h"
+				RelativePath=".\function.h"
 				>
 			</File>
 			<File

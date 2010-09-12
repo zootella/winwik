@@ -6,12 +6,13 @@
 
 // Include program
 #include "resource.h"
-#include "program.h"
+#include "define.h"
 #include "function.h"
 
 // Access to global objects
 extern handletop Handle;
 
+// Run a snippet of test code
 void Test() {
 
 }
