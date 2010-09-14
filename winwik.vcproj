@@ -217,11 +217,11 @@
 				>
 			</File>
 			<File
-				RelativePath="window.cpp"
+				RelativePath=".\wiki.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\workbench.cpp"
+				RelativePath="window.cpp"
 				>
 			</File>
 		</Filter>

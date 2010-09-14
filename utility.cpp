@@ -4,6 +4,9 @@
 #include <windef.h>
 #include <atlstr.h>
 
+// Include language
+#include <vector>
+
 // Include program
 #include "resource.h"
 #include "define.h"
@@ -22,7 +25,7 @@ void error(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r
 void log(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9) {
 
 	if (!PROGRAM_TEST) return;
-	CString s = make(make(r1, r2, r3, r4, r5, r6, r7, r8, r9), "\r\n");
+	string s = make(make(r1, r2, r3, r4, r5, r6, r7, r8, r9), "\r\n");
 	OutputDebugString(s);
 }
 
@@ -30,6 +33,43 @@ void log(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8,
 void report(read r) {
 
 	if (PROGRAM_TEST) MessageBox(Handle.window, r, PROGRAM_NAME, MB_OK);
+}
+
+// Reads the text contents of the file at path
+string FileOpen(read path) {
+
+	// Open an existing file at path for reading
+	HANDLE file = CreateFile(
+		path,                      // Path and file name
+		GENERIC_READ,              // Only need read access
+		0,                         // Don't share access with other processes while we've got it open
+		NULL,                      // No security attributes
+		OPEN_EXISTING,             // Don't create a file
+		FILE_FLAG_SEQUENTIAL_SCAN, // We're going to read in a single pass
+		NULL);                     // No template
+	if (!file || file == INVALID_HANDLE_VALUE) { error("createfile"); return ""; }
+
+	// Find out how big the file is in bytes
+	DWORD size = GetFileSize(file, NULL);
+
+	// Open a string
+	string s;
+	LPTSTR buffer = s.GetBuffer(size);
+
+	// Copy the file contents into the string
+	DWORD did = 0;
+	int result = ReadFile(
+		file,   // File to read from
+		buffer, // Destination buffer
+		size,   // Number of bytes to read
+		&did,   // Number of bytes read
+		NULL);  // No overlapping
+	if (!result || size != did) { error("readfile"); CloseHandle(file); s.ReleaseBuffer(0); return ""; }
+
+	// Close the file, close the string, and return it
+	CloseHandle(file);
+	s.ReleaseBuffer(size); // Must supply size because data isn't null terminated
+	return s;
 }
 
 // Saves the given text to a file at path, overwriting a file already there
@@ -51,10 +91,10 @@ bool FileSave(read path, read r) {
 	DWORD size = length(r);
 	DWORD written = 0;
 	int result = WriteFile(
-		file,     // OPEN FILE HANDLE
-		(LPVOID)r,   // POINTER TO DATA BUFFER
-		size,     // NUMBER OF BYTES TO WRITE
-		&written, // THE NUMBER OF BYTES WRITTEN IS STORED HERE
+		file,      // Open file handle
+		(LPVOID)r, // Pointer to data buffer
+		size,      // Number of bytes to write
+		&written,  // Put number of bytes written here
 		NULL);
 	if (!result)         { error("writefile");        return false; }
 	if (size != written) { error("size not written"); return false; }

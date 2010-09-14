@@ -4,6 +4,9 @@
 #include <windef.h>
 #include <atlstr.h>
 
+// Include language
+#include <vector>
+
 // Include program
 #include "resource.h"
 #include "define.h"
@@ -17,6 +20,10 @@ void Test() {
 
 
 
+	string s = FileOpen("C:\\Documents\\test.txt");
+
+	/*
 	FileSave("C:\\Documents\\test\\file.txt", "hello inside the file");
+	*/
 }
 

@@ -4,6 +4,9 @@
 #include <windef.h>
 #include <atlstr.h>
 
+// Include language
+#include <vector>
+
 // Include program
 #include "resource.h"
 #include "define.h"
