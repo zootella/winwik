@@ -18,12 +18,6 @@ extern handletop Handle;
 // Run a snippet of test code
 void Test() {
 
-
-
-	string s = FileOpen("C:\\Documents\\test.txt");
-
-	/*
-	FileSave("C:\\Documents\\test\\file.txt", "hello inside the file");
-	*/
+	TestWiki();
 }
 

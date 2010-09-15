@@ -42,8 +42,6 @@ void ClipboardChanged();
 
 // Test
 void Test();
+void TestWiki();
 
-
-std::vector<string> lines(read r);
-void print(std::vector<string> v);
 
