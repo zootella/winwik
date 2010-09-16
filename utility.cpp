@@ -16,23 +16,13 @@
 extern handletop Handle;
 
 // Print an error message out on the output log
-void error(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9) {
+void error(read r) {
 
-	if (PROGRAM_TEST) log(make("error ", numerals(GetLastError()), " ", make(r1, r2, r3, r4, r5, r6, r7, r8, r9)));
-}
-
-// Print a message out on the output log
-void log(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read r8, read r9) {
-
-	if (!PROGRAM_TEST) return;
-	string s = make(make(r1, r2, r3, r4, r5, r6, r7, r8, r9), "\r\n");
-	OutputDebugString(s);
-}
-
-// Show a message to the user
-void report(read r) {
-
-	if (PROGRAM_TEST) MessageBox(Handle.window, r, PROGRAM_NAME, MB_OK);
+	if (PROGRAM_TEST) MessageBox(
+		Handle.window,
+		make("error ", numerals(GetLastError()), " ", r),
+		PROGRAM_NAME,
+		MB_OK);
 }
 
 // Reads the text contents of the file at path

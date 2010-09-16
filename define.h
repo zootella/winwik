@@ -3,6 +3,9 @@
 #define PROGRAM_TEST true
 #define PROGRAM_NAME "Winwik"
 
+// Factory presets
+#define WRAP_WIDTH 110
+
 // Function renames
 #define length lstrlen
 

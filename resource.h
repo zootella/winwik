@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by winwik.rc
 //
-#define IDM_TEST                        40006
 
 // Next default values for new objects
 // 

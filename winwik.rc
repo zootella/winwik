@@ -55,17 +55,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 APPICON                 ICON                    "appicon.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-MAINMENU MENU 
-BEGIN
-    MENUITEM "Test",                        IDM_TEST
-END
-
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -28,20 +28,28 @@ string off(read r, read t, direction d = Forward, matching m = Different); // Ha
 string trim(read r, read t1 = "", read t2 = "", read t3 = ""); // Has defaults
 
 // Utility
-void error(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = ""); // Has defaults
-void log(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = ""); // Has defaults
-void report(read r);
+void error(read r);
 string FileOpen(read path);
 bool FileSave(read path, read r);
 void ClipboardJoin();
 void ClipboardLeave();
 bool ClipboardPaste(string *s);
 
-// Workbench
+// Wiki
 void ClipboardChanged();
-
-// Test
-void Test();
-void TestWiki();
-
-
+void Page(std::vector<string> lines);
+std::vector<string> Group(std::vector<string> raw);
+void Path(read r, string *titletext, string *templatepath, string *folderpath, string *savepath);
+string Format(std::vector<string> lines);
+string Hyphen(read r);
+string Heading(read r);
+string Paragraph(read r);
+string Pair(read r, read w1, read w2, read h1, read h2);
+string Curl(read r);
+string Link(read r);
+string Target(read r);
+string Wrap(std::vector<string> lines);
+string Break(read r);
+std::vector<string> Words(read r);
+std::vector<string> Lines(read r, bool blank);
+string Combine(std::vector<string> lines);

@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	info.hIconSm       = (HICON)LoadImage(Handle.instance, "APPICON", IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	info.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	info.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	info.lpszMenuName  = "MAINMENU";
+	info.lpszMenuName  = NULL;
 	info.lpszClassName = name;
 	RegisterClassEx(&info);
 
@@ -73,18 +73,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 // Process a message from the system
 LRESULT CALLBACK WindowProcedure(HWND window, UINT message, WPARAM wparam, LPARAM lparam) {
 
-	// The message is a command
-	switch (message) {
-	case WM_COMMAND:
-
-		switch (LOWORD(wparam)) {
-
-			// The user clicked on a menu item
-			case IDM_TEST: Test(); return 0;
-		}
-
 	// Another window is exiting the clipboard viewer chain
-	break;
+	switch (message) {
 	case WM_CHANGECBCHAIN:
 
 		// Unlink the next program or pass the message along
@@ -109,5 +99,6 @@ LRESULT CALLBACK WindowProcedure(HWND window, UINT message, WPARAM wparam, LPARA
 		return 0;
 	}
 
+	// Give the message to the system
 	return DefWindowProc(window, message, wparam, lparam);
 }
