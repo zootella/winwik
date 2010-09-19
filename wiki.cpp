@@ -211,11 +211,23 @@ string Pair(read r, read w1, read w2, read h1, read h2) {
 // Curl quotes and apostrophes
 string Curl(read r) {
 
-	string s = make(" ", r, " "); // Put spaces on ends to curl starting and ending quotes
-	s = replace(s, "'", "&rsquo;"); // Curl apostrophes
-	s = replace(s, " \"", " &ldquo;");
-	s = replace(s, "\" ", "&rdquo; ");
-	return trim(s, " ");
+	string raw = r;
+	string processed;
+	string before;
+	string quote = "&ldquo;";
+
+	while (has(raw, "\"")) {
+
+		split(raw, "\"", &before, &raw);
+		processed += before + quote;
+
+		if (quote == "&ldquo;") quote = "&rdquo;"; // Curl quote the other way for next time
+		else quote = "&ldquo;";
+	}
+
+	processed += raw;
+	processed = replace(processed, "'", "&rsquo;"); // Curl apostrophes
+	return processed;
 }
 
 // Turn wikitext links into HTML
