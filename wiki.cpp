@@ -138,9 +138,9 @@ string Format(std::vector<string> lines) {
 	for (int i = 0; i < (int)lines.size(); i++) { // Loop for each line we were given
 		s = lines[i];
 
+		s = Curl(s); // Curl quotes and apostrophes
 		s = Heading(s); // Horizontal rules and headings
 		s = Link(s); // Create links
-		s = Curl(s); // Curl quotes and apostrophes
 		s = replace(s, "--", "&mdash;"); // Em dash
 		s = replace(s, "...", "&hellip;"); // Ellipsis
 		s = Paragraph(s); // Paragraph tags
