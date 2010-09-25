@@ -41,7 +41,7 @@ void Page(std::vector<string> lines);
 std::vector<string> Group(std::vector<string> raw);
 void Path(read r, string *titletext, string *templatepath, string *folderpath, string *savepath);
 string Format(std::vector<string> lines);
-string Hyphen(read r);
+string Safe(read r);
 string Heading(read r);
 string Paragraph(read r);
 string Pair(read r, read w1, read w2, read h1, read h2);

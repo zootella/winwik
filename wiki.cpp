@@ -126,9 +126,9 @@ void Path(read r, string *titletext, string *templatepath, string *folderpath, s
 	GetModuleFileName(NULL, bay, MAX_PATH);
 	string folder = before(bay, "\\", Reverse) + "\\";
 
-	*templatepath = make(folder, Hyphen(templatetext), ".html");
-	*folderpath   = make(folder, Hyphen(templatetext));
-	*savepath     = make(folder, Hyphen(templatetext), "\\", Hyphen(*titletext), ".html");
+	*templatepath = make(folder, Safe(templatetext), ".html");
+	*folderpath   = make(folder, Safe(templatetext));
+	*savepath     = make(folder, Safe(templatetext), "\\", Safe(*titletext), ".html");
 }
 
 // Format wikitext into HTML
@@ -159,9 +159,31 @@ string Format(std::vector<string> lines) {
 }
 
 // Convert "My Title" to "My-Title"
-string Hyphen(read r) {
+string Safe(read r) {
 
-	return replace(r, " ", "-");
+	string s;
+	for (int i = 0; i < length(r); i++) { // Make it just letters, numbers, hyphens, and slashes
+		char c = r[i];
+
+		if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+			s += c; // Allow letters and numbers
+
+		} else if (c == '^' || c == '.' || c == '/') {
+			s += c; // Allow path control characters
+
+		} else if (c == '\'') { // Omit apostrophe
+
+		} else {
+			s += '-'; // Replace everything else with a hyphen
+		}
+	}
+
+	while (has(s, "--")) // Replace all multiple hyphens with a single hyphen
+		s = replace(s, "--", "-");
+
+	s = trim(s, "-"); // Remove leading and trailing hyphens
+	if (isblank(s)) s = "untitled"; // Don't let the name be blank
+	return s;
 }
 
 // Given a line of wikitext, convert it into a horizontal rule or heading if it is one
@@ -212,10 +234,21 @@ string Pair(read r, read w1, read w2, read h1, read h2) {
 string Curl(read r) {
 
 	string raw = r;
-	string processed;
+
+	raw = replace(raw, "0\"", "0&rdquo;"); // Curl numbers of inches
+	raw = replace(raw, "1\"", "1&rdquo;");
+	raw = replace(raw, "2\"", "2&rdquo;");
+	raw = replace(raw, "3\"", "3&rdquo;");
+	raw = replace(raw, "4\"", "4&rdquo;");
+	raw = replace(raw, "5\"", "5&rdquo;");
+	raw = replace(raw, "6\"", "6&rdquo;");
+	raw = replace(raw, "7\"", "7&rdquo;");
+	raw = replace(raw, "8\"", "8&rdquo;");
+	raw = replace(raw, "9\"", "9&rdquo;");
+
+	string processed; // Curl double quotes
 	string before;
 	string quote = "&ldquo;";
-
 	while (has(raw, "\"")) {
 
 		split(raw, "\"", &before, &raw);
@@ -224,8 +257,8 @@ string Curl(read r) {
 		if (quote == "&ldquo;") quote = "&rdquo;"; // Curl quote the other way for next time
 		else quote = "&ldquo;";
 	}
-
 	processed += raw;
+
 	processed = replace(processed, "'", "&rsquo;"); // Curl apostrophes
 	return processed;
 }
@@ -278,9 +311,8 @@ string Target(read r) {
 		target = r;
 	}
 
-
 	if (!has(target, ":") && !has(target, ".")) // Don't change http addresses or image.png
-		target = Hyphen(target) + ".html"; // Link [My Link] to My-Link.html
+		target = Safe(target) + ".html"; // Link [My Link] to My-Link.html
 
 	if (starts(target, "^")) // Use ^ to go up a folder
 		target = replace(target, "^", "../");
