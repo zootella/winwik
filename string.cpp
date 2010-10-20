@@ -139,6 +139,15 @@ bool has(read r, read t, matching m) {
 	else                              return false;
 }
 
+int find2(read r, int startindex, int characters, read t, direction d, matching m) {
+
+
+}
+
+
+
+
+
 // Takes text r and t, and direction and matching
 // Finds in r the first or last instance of t
 // Returns the zero based index of t in r, or -1 if not found or if r or t are blank

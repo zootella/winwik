@@ -411,8 +411,90 @@ std::vector<string> Lines(read r, bool blank) {
 // Combine a list of lines into a single string by putting newlines between them
 string Combine(std::vector<string> lines) {
 
+
+	FastCombine(lines);
+
+
 	string s;
 	for (int i = 0; i < (int)lines.size(); i++)
 		s += lines[i] + "\r\n";
 	return trim(s, "\r\n"); // No newline at the end
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Break text into a list of words
+std::vector<string> FastWords(read r) {
+
+	string s = r;
+	s = replace(s, "\r", " "); // Convert newline and tab characters into spaces
+	s = replace(s, "\n", " ");
+	s = replace(s, "\t", " ");
+
+	while (has(s, "  ")) // Collapse multiple spaces down to a single space
+		s = replace(s, "  ", " ");
+
+	s = trim(s, " "); // Remove leading and trailing spaces
+
+	std::vector<string> words;
+	string word;
+	while (is(s)) {
+
+		split(s, " ", &word, &s); // Not found puts all text in before
+		words.push_back(word);
+	}
+	return words;
+}
+
+// Split a string into a list of trimmed lines, true to include blank lines
+std::vector<string> FastLines(read r, bool blank) {
+
+	string s = r;
+	string line;
+	std::vector<string> lines;
+
+	while (is(s)) {
+
+		split(s, "\n", &line, &s);
+		line = trim(line, " ", "\r", "\t");
+		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
+	}
+	return lines;
+}
+
+// Combine a list of lines into a single string by putting newlines between them
+string FastCombine(std::vector<string> lines) {
+
+	int size = 0;
+	for (int i = 0; i < (int)lines.size(); i++)
+		size += length(lines[i]) + 2; // Each newline pair is two bytes
+
+	string s;
+	write w = s.GetBuffer(size + 1); // We will write size characters and a null terminator
+
+	for (int i = 0; i < (int)lines.size(); i++) {
+		lstrcat(w, lines[i]);
+		lstrcat(w, "\r\n"); // Writes 3 bytes, the newline pair and a null terminator
+	}
+
+	s.ReleaseBuffer();
+	return s;
+}
+
+
+
+
+
