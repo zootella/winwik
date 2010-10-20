@@ -15,38 +15,9 @@
 // Access to global objects
 extern handletop Handle;
 
-
-void test(int expected, int result) {
-	if (expected != result) error("ERROR");
-}
-
-
 // Called when the clipboard contents change
 // For each group of lines that begin "PAGE:", calls Page() on them
 void ClipboardChanged() {
-
-
-
-	//test
-	test(find("aa", 1, 1, "a"), 1);
-	test(find("aa", 0, 1, "a"), 0);
-	test(find("aa", 0, 2, "a"), 0);
-
-	test(find("aa", "a"), 0);
-	test(find("  aa  ", "a"), 2);
-
-	test(find("  aa  ", 1, 1, "a"), -1);
-	test(find("  aa  ", 4, 2, "a"), -1);
-
-
-	error("DONE");
-
-
-
-
-
-	/*
-
 
 	string s;
 	if (!ClipboardPaste(&s)) return; // Get the text on the clipboard
@@ -68,7 +39,6 @@ void ClipboardChanged() {
 	}
 
 	if (found && page.size() > 0) Page(page); // Print the last page
-	*/
 }
 
 // Given lines that make up a page, print that page to disk
@@ -425,6 +395,10 @@ std::vector<string> Words(read r) {
 // Split a string into a list of trimmed lines, true to include blank lines
 std::vector<string> Lines(read r, bool blank) {
 
+	return FastLines(r, blank);
+
+	/*
+
 	string s = r;
 	string line;
 	std::vector<string> lines;
@@ -436,6 +410,7 @@ std::vector<string> Lines(read r, bool blank) {
 		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
 	}
 	return lines;
+	*/
 }
 
 // Combine a list of lines into a single string by putting newlines between them
@@ -490,20 +465,70 @@ std::vector<string> FastWords(read r) {
 }
 
 // Split a string into a list of trimmed lines, true to include blank lines
+
+/*
 std::vector<string> FastLines(read r, bool blank) {
 
-	string s = r;
+	int f;
 	string line;
 	std::vector<string> lines;
 
-	while (is(s)) {
+	while (true) {
 
-		split(s, "\n", &line, &s);
-		line = trim(line, " ", "\r", "\t");
-		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
+		f = find(r, "\n");
+		if (f == -1) { // Not found
+
+			line = r; // All of r is the last line
+			line = trim(line, " ", "\r", "\t");
+			if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
+
+			break;
+
+		} else { // Newline found at f
+
+			line = clip(r, 0, f); // Clip out line from the start
+			line = trim(line, " ", "\r", "\t");
+			if (blank || is(line)) lines.push_back(line);
+
+			r += f + 1; // Move the r pointer forward past the line we found
+		}
 	}
 	return lines;
 }
+
+
+void FastLinesHelp(std::vector<string> *lines, read line, bool blank) {
+
+	string s = trim(line, " ", "\r", "\t");
+	if (blank || is(s)) lines.push_back(s); // Only include line if we're allowing blanks or it has text
+}
+*/
+
+
+std::vector<string> FastLines(read r, bool blank) {
+
+	int f;
+	string line;
+	std::vector<string> lines;
+
+	do {
+
+		f = find(r, "\n");
+
+		line = clip(r, 0, f); // If f is not found, -1 will clip out all of r
+		line = trim(line, " ", "\r", "\t");
+		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
+
+		r += f + 1; // Move the r pointer forward past the line we found
+
+	} while (f != -1); // Stop after not found
+
+	return lines;
+}
+
+
+
+
 
 // Combine a list of lines into a single string by putting newlines between them
 string FastCombine(std::vector<string> lines) {
