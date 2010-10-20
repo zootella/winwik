@@ -22,7 +22,7 @@ void ClipboardChanged() {
 	string s;
 	if (!ClipboardPaste(&s)) return; // Get the text on the clipboard
 
-	std::vector<string> lines = FastLines(s, true); // Include blank lines
+	std::vector<string> lines = Lines(s, true); // Include blank lines
 
 	std::vector<string> page;
 	boolean found = false;
@@ -392,30 +392,8 @@ std::vector<string> Words(read r) {
 	return words;
 }
 
-
-
-
-
-
-
 // Split a string into a list of trimmed lines, true to include blank lines
 std::vector<string> Lines(read r, bool blank) {
-
-	string s = r;
-	string line;
-	std::vector<string> lines;
-
-	while (is(s)) {
-
-		split(s, "\n", &line, &s);
-		line = trim(line, " ", "\r", "\t");
-		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
-	}
-	return lines;
-}
-
-// Split a string into a list of trimmed lines, true to include blank lines
-std::vector<string> FastLines(read r, bool blank) {
 
 	int f;
 	string line;
@@ -436,21 +414,8 @@ std::vector<string> FastLines(read r, bool blank) {
 	return lines;
 }
 
-
-
-
-
 // Combine a list of lines into a single string by putting newlines between them
 string Combine(std::vector<string> lines) {
-
-	string s;
-	for (int i = 0; i < (int)lines.size(); i++)
-		s += lines[i] + "\r\n";
-	return trim(s, "\r\n"); // No newline at the end
-}
-
-// Combine a list of lines into a single string by putting newlines between them
-string FastCombine(std::vector<string> lines) {
 
 	int size = 0;
 	for (int i = 0; i < (int)lines.size(); i++)
@@ -467,8 +432,3 @@ string FastCombine(std::vector<string> lines) {
 	s.ReleaseBuffer();
 	return trim(s, "\r\n"); // No newline at the end
 }
-
-
-
-
-
