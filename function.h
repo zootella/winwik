@@ -52,11 +52,10 @@ string Link(read r);
 string Target(read r);
 string Wrap(std::vector<string> lines);
 string Break(read r);
-
 std::vector<string> Words(read r);
-std::vector<string> Lines(read r, bool blank);
-string Combine(std::vector<string> lines);
 
-std::vector<string> FastWords(read r);
+std::vector<string> Lines(read r, bool blank);
 std::vector<string> FastLines(read r, bool blank);
+
+string Combine(std::vector<string> lines);
 string FastCombine(std::vector<string> lines);

@@ -343,7 +343,7 @@ string Wrap(std::vector<string> lines) {
 // Break a long line into several lines to wrap the text nicely
 string Break(read r) {
 
-	std::vector<string> words = FastWords(r); // Break the text into a list of words
+	std::vector<string> words = Words(r); // Break the text into a list of words
 
 	string lines, line, word;
 	for (int i = 0; i < (int)words.size(); i++) { // Loop for each word
@@ -392,6 +392,12 @@ std::vector<string> Words(read r) {
 	return words;
 }
 
+
+
+
+
+
+
 // Split a string into a list of trimmed lines, true to include blank lines
 std::vector<string> Lines(read r, bool blank) {
 
@@ -406,59 +412,6 @@ std::vector<string> Lines(read r, bool blank) {
 		if (blank || is(line)) lines.push_back(line); // Only include line if we're allowing blanks or it has text
 	}
 	return lines;
-}
-
-// Combine a list of lines into a single string by putting newlines between them
-string Combine(std::vector<string> lines) {
-
-	string s;
-	for (int i = 0; i < (int)lines.size(); i++)
-		s += lines[i] + "\r\n";
-	return trim(s, "\r\n"); // No newline at the end
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Break text into a list of words
-std::vector<string> FastWords(read r) {
-
-	string s = r;
-	s = replace(s, "\r", " "); // Convert newline and tab characters into spaces
-	s = replace(s, "\n", " ");
-	s = replace(s, "\t", " ");
-
-	while (has(s, "  ")) // Collapse multiple spaces down to a single space
-		s = replace(s, "  ", " ");
-
-	s = trim(s, " "); // Remove leading and trailing spaces
-
-	r = s; // Point r at the string's memory buffer
-	int f;
-	string word;
-	std::vector<string> words;
-	do {
-
-		f = find(r, " ");
-
-		word = clip(r, 0, f); // If f is not found, -1 will clip out all of r
-		if (is(word)) words.push_back(word);
-
-		r += f + 1; // Move the r pointer forward past the line we found
-
-	} while (f != -1);
-	return words;
 }
 
 // Split a string into a list of trimmed lines, true to include blank lines
@@ -483,6 +436,19 @@ std::vector<string> FastLines(read r, bool blank) {
 	return lines;
 }
 
+
+
+
+
+// Combine a list of lines into a single string by putting newlines between them
+string Combine(std::vector<string> lines) {
+
+	string s;
+	for (int i = 0; i < (int)lines.size(); i++)
+		s += lines[i] + "\r\n";
+	return trim(s, "\r\n"); // No newline at the end
+}
+
 // Combine a list of lines into a single string by putting newlines between them
 string FastCombine(std::vector<string> lines) {
 
@@ -499,7 +465,7 @@ string FastCombine(std::vector<string> lines) {
 	}
 
 	s.ReleaseBuffer();
-	return s;
+	return trim(s, "\r\n"); // No newline at the end
 }
 
 
