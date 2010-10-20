@@ -43,6 +43,7 @@ void Path(read r, string *titletext, string *templatepath, string *folderpath, s
 string Format(std::vector<string> lines);
 string Safe(read r);
 string Heading(read r);
+string Chat(read r);
 string Paragraph(read r);
 string Pair(read r, read w1, read w2, read h1, read h2);
 string Curl(read r);

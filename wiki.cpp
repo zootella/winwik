@@ -140,6 +140,7 @@ string Format(std::vector<string> lines) {
 
 		s = Curl(s); // Curl quotes and apostrophes
 		s = Heading(s); // Horizontal rules and headings
+		s = Chat(s); // Chat bubbles
 		s = Link(s); // Create links
 		s = replace(s, "--", "&mdash;"); // Em dash
 		s = replace(s, "...", "&hellip;"); // Ellipsis
@@ -198,11 +199,19 @@ string Heading(read r) {
 	return s;
 }
 
+// Given a line of wikitext, convert it into a chat bubble if its marked up as one
+string Chat(read r) {
+
+	if      (starts(r, ">>")) return "<div class=\"ro\"><div class=\"ri\">" + clip(r, 2) + "</div></div>";
+	else if (starts(r, ">"))  return "<div class=\"lo\"><div class=\"li\">" + clip(r, 1) + "</div></div>";
+	else                      return r;
+}
+
 // Turn a line of wikitext into a HTML paragraph if it's not already a heading or horizontal rule
 string Paragraph(read r) {
 
 	string s = r;
-	if (!starts(s, "<h")) s = "<p>" + s + "</p>"; // Headings and horizontal rules both start "<h"
+	if (!starts(s, "<h") && !starts(s, "<div")) s = "<p>" + s + "</p>"; // Don't put paragraph tags around headings or divs
 	return s;
 }
 
