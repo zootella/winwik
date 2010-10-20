@@ -17,6 +17,7 @@ bool starts(read r, read t, matching m = Different); // Has defaults
 bool trails(read r, read t, matching m = Different); // Has defaults
 bool has(read r, read t, matching m = Different); // Has defaults
 int find(read r, read t, direction d = Forward, matching m = Different); // Has defaults
+int find(read r, int startindex, int characters, read t, direction d = Forward, matching m = Different); // Has defaults
 string parse(read r, read t1, read t2, matching m = Different); // Has defaults
 string before(read r, read t, direction d = Forward, matching m = Different); // Has defaults
 string after(read r, read t, direction d = Forward, matching m = Different); // Has defaults

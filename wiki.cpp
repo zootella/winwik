@@ -15,9 +15,38 @@
 // Access to global objects
 extern handletop Handle;
 
+
+void test(int expected, int result) {
+	if (expected != result) error("ERROR");
+}
+
+
 // Called when the clipboard contents change
 // For each group of lines that begin "PAGE:", calls Page() on them
 void ClipboardChanged() {
+
+
+
+	//test
+	test(find("aa", 1, 1, "a"), 1);
+	test(find("aa", 0, 1, "a"), 0);
+	test(find("aa", 0, 2, "a"), 0);
+
+	test(find("aa", "a"), 0);
+	test(find("  aa  ", "a"), 2);
+
+	test(find("  aa  ", 1, 1, "a"), -1);
+	test(find("  aa  ", 4, 2, "a"), -1);
+
+
+	error("DONE");
+
+
+
+
+
+	/*
+
 
 	string s;
 	if (!ClipboardPaste(&s)) return; // Get the text on the clipboard
@@ -39,6 +68,7 @@ void ClipboardChanged() {
 	}
 
 	if (found && page.size() > 0) Page(page); // Print the last page
+	*/
 }
 
 // Given lines that make up a page, print that page to disk

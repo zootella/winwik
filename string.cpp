@@ -139,24 +139,30 @@ bool has(read r, read t, matching m) {
 	else                              return false;
 }
 
-int find2(read r, int startindex, int characters, read t, direction d, matching m) {
-
-
-}
-
-
-
-
-
 // Takes text r and t, and direction and matching
 // Finds in r the first or last instance of t
 // Returns the zero based index of t in r, or -1 if not found or if r or t are blank
 int find(read r, read t, direction d, matching m) {
 
+	// Scan over all of r
+	return find(r, 0, length(r), t, d, m);
+}
+
+// Takes text r and t, start index and number of characters to scan over in r, and direction and matching
+// Finds in r the first or last instance of t
+// Returns the zero based index of t in r, or -1 if not found or if r or t are blank
+int find(read r, int startindex, int characters, read t, direction d, matching m) {
+
+	// Check start index and characters
+	if (startindex < 0 || characters < 1) return -1; // Start index must be 0+ and characters must be 1+
+	if (startindex + characters > length(r)) return -1; // Make sure start index and characters don't reach beyond r
+
+	// Move r to the starting index
+	r += startindex;
+
 	// Get lengths
-	int rlength, tlength;
-	rlength = length(r);
-	tlength = length(t);
+	int rlength = characters;
+	int tlength = length(t);
 
 	// If either is blank or r is shorter than t, return not found
 	if (!rlength || !tlength || rlength < tlength) return -1;
@@ -193,7 +199,7 @@ int find(read r, read t, direction d, matching m) {
 		}
 
 		// The tag was found at rindex, return it, done
-		if (valid) return rindex;
+		if (valid) return startindex + rindex; // Return index from original start of r
 
 		if (d == Forward) rindex++;
 		else              rindex--;
