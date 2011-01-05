@@ -244,16 +244,9 @@ string Curl(read r) {
 
 	string raw = r;
 
-	raw = replace(raw, "0\"", "0&rdquo;"); // Curl numbers of inches
-	raw = replace(raw, "1\"", "1&rdquo;");
-	raw = replace(raw, "2\"", "2&rdquo;");
-	raw = replace(raw, "3\"", "3&rdquo;");
-	raw = replace(raw, "4\"", "4&rdquo;");
-	raw = replace(raw, "5\"", "5&rdquo;");
-	raw = replace(raw, "6\"", "6&rdquo;");
-	raw = replace(raw, "7\"", "7&rdquo;");
-	raw = replace(raw, "8\"", "8&rdquo;");
-	raw = replace(raw, "9\"", "9&rdquo;");
+	raw = replace(raw, "\"\"", "&rdquo;"); // Code for double quotes like 5' 7""
+	raw = replace(raw, "''",   "&lsquo;"); // Code for starting apostrophe like ''What?'
+	raw = replace(raw, "'",    "&rsquo;"); // Curl all other single
 
 	string processed; // Curl double quotes
 	string before;
@@ -264,11 +257,9 @@ string Curl(read r) {
 		processed += before + quote;
 
 		if (quote == "&ldquo;") quote = "&rdquo;"; // Curl quote the other way for next time
-		else quote = "&ldquo;";
+		else                    quote = "&ldquo;";
 	}
 	processed += raw;
-
-	processed = replace(processed, "'", "&rsquo;"); // Curl apostrophes
 	return processed;
 }
 
